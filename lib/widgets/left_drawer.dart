@@ -27,7 +27,7 @@ class LeftDrawer extends StatelessWidget {
                 ),
                 Padding(padding: EdgeInsets.all(8)),
                 Text(
-                  "Best place to take a rest",
+                  "Best place to take a rest.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15,
