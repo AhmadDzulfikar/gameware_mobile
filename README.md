@@ -156,5 +156,29 @@ Dalam mengerjakan tugas ini, karna saya mengikuti tutorial jadinya saya mengguna
 Cara saya untuk mengatur tema dalam projek flutter yang sedang saya buat adalah dengan cara pada widget `MaterialApp` saya mengatur `ThemeData. Dengan cara ini kita dapat mengatur semua desainnya seperti font, warna.
 
 ##  Bagaimana cara kamu menangani navigasi dalam aplikasi dengan banyak halaman pada Flutter?
+Dalam melakukan navigasi saya menggunakan `Navigator` untuk melakukannya yang mana `Navigator.push()` untuk pindah halaman dan `Navigator.pop()` untuk kembali ke halaman sebelumnya.
 
+### Untuk Pindah ke Halaman Baru:
+```
+  onTap: () {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MyHomePage(),
+        ));
+  },
+```
+
+### Untuk kembali ke halaman sebelumnya:
+```
+   actions: [
+      TextButton(
+        child: const Text('OK'),
+        onPressed: () {
+          Navigator.pop(context);
+          _formKey.currentState!.reset();
+        },
+      ),
+    ],
+```
 
