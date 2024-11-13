@@ -98,6 +98,63 @@ onTap: () {
         content: Text("Kamu telah menekan tombol ${item.name}!")));
 },
 ```
+# Tugas 8
+## Apa kegunaan const di Flutter? Jelaskan apa keuntungan ketika menggunakan const pada kode Flutter. Kapan sebaiknya kita menggunakan const, dan kapan sebaiknya tidak digunakan?
+`const` digunakan untuk mendefinisikan objek yang bersifat immutable atau tidak dapat diubah. Ketika sebuah widget atau objek ditandai dengan const, itu berarti bahwa nilai dari objek tersebut tidak akan berubah selama runtime aplikasi.
 
+## Jelaskan dan bandingkan penggunaan Column dan Row pada Flutter. Berikan contoh implementasi dari masing-masing layout widget ini!
+`Column`
+Column adalah widget yang menyusun anak-anaknya secara vertikal (dari atas ke bawah). 
+Contoh:
+```
+child: Column(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    Text(
+      item.count.toString(),
+      style: const TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    Icon(
+      item.icon,
+      color: Colors.white,
+      size: 30.0,
+    ),
+    const SizedBox(height: 8.0),
+    Text(
+      item.name,
+      textAlign: TextAlign.center,
+      style: const TextStyle(color: Colors.white),
+    ),
+  ],
+  ),
+```
+
+`Row`
+Row adalah widget yang menyusun anak-anaknya secara horizontal (dari kiri ke kanan). 
+Contoh:
+```
+    Expanded(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Expanded(child: InfoCard(title: 'NPM', content: npm)),
+          Expanded(child: InfoCard(title: 'Name', content: name)),
+          Expanded(child: InfoCard(title: 'Class', content: className)),
+        ],
+      ),
+    ),
+```
+
+##  Sebutkan apa saja elemen input yang kamu gunakan pada halaman form yang kamu buat pada tugas kali ini. Apakah terdapat elemen input Flutter lain yang tidak kamu gunakan pada tugas ini? Jelaskan!
+Dalam mengerjakan tugas ini, karna saya mengikuti tutorial jadinya saya menggunakan elemen input `TextField`, dan saya tidak menggunakan beberapa input yang lain seperti `Checkbox`, `Radio`, `Switch`, `DropdownButton`.
+
+##  Bagaimana cara kamu mengatur tema (theme) dalam aplikasi Flutter agar aplikasi yang dibuat konsisten? Apakah kamu mengimplementasikan tema pada aplikasi yang kamu buat?
+Cara saya untuk mengatur tema dalam projek flutter yang sedang saya buat adalah dengan cara pada widget `MaterialApp` saya mengatur `ThemeData. Dengan cara ini kita dapat mengatur semua desainnya seperti font, warna.
+
+##  Bagaimana cara kamu menangani navigasi dalam aplikasi dengan banyak halaman pada Flutter?
 
 
