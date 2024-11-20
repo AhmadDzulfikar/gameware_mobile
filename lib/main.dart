@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gameware/screens/login.dart';
 import 'package:gameware/screens/menu.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -10,10 +14,16 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
+    Widget build(BuildContext context) {
+    return Provider(
+      create: (_) {
+        CookieRequest request = CookieRequest();
+        return request;
+      },
+      child: MaterialApp(
+        title: 'Mental Health Tracker',
+        theme: ThemeData(
+          useMaterial3: true,
         colorScheme: const ColorScheme(
           primary: Color(0xFF1A237E),
           secondary: Color(0xFF7986CB),
@@ -25,8 +35,9 @@ class MyApp extends StatelessWidget {
           onError: Colors.white,
           brightness: Brightness.light,
         ),
+        ),
+        home: const LoginPage()
       ),
-      home: MyHomePage(),
     );
   }
 }

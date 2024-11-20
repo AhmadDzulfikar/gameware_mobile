@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gameware/screens/list_moodentry.dart';
 import 'package:gameware/screens/menu.dart';
 import 'package:gameware/screens/productentry_form.dart';
 
@@ -38,31 +39,42 @@ class LeftDrawer extends StatelessWidget {
               ],
             ),
           ),
-            ListTile(
-              leading: const Icon(Icons.home_outlined),
-              title: const Text('Halaman Utama'),
-              // Bagian redirection ke MyHomePage
-              onTap: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MyHomePage(),
-                    ));
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.add),
-              title: const Text('Tambah Product'),
-              // Bagian redirection ke MoodEntryFormPage
-              onTap: () {
-                Navigator.push(
+          ListTile(
+            leading: const Icon(Icons.home_outlined),
+            title: const Text('Halaman Utama'),
+            // Bagian redirection ke MyHomePage
+            onTap: () {
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ProductEntryFormPage(),
-                  ),
-                );
-              },
-            ),
+                    builder: (context) => MyHomePage(),
+                  ));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add),
+            title: const Text('Tambah Product'),
+            // Bagian redirection ke gamewareFormPage
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProductEntryFormPage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_reaction_rounded),
+            title: const Text('Daftar Mood'),
+            onTap: () {
+              // Route menu ke halaman mood
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const GameWarePage()),
+              );
+            },
+          ),
         ],
       ),
     );
