@@ -59,7 +59,7 @@ class ItemCard extends StatelessWidget {
               if (response['status']) {
                 String uname = response["username"];
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("$message Sampai jumpa, $uname."),
+                  content: Text("$message Sampai jumpa, $uname."), 
                 ));
                 Navigator.pushReplacement(
                   context,
