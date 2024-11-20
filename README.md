@@ -182,3 +182,197 @@ Dalam melakukan navigasi saya menggunakan `Navigator` untuk melakukannya yang ma
     ],
 ```
 
+# Tugas 9
+## 1. Jelaskan mengapa kita perlu membuat model untuk melakukan pengambilan ataupun pengiriman data JSON? Apakah akan terjadi error jika kita tidak membuat model terlebih dahulu?
+Dalam pembuatan project ini kita perlu membuat `model` dengan berbagai alasan, seperti:
+1. Konsistensi Struktur Data
+   Dalam flutter dan django, data JSON yang dikirim atau diterima harus memiliki struktur yang sesuai agar tidak menimbulkan error parsing.
+2. Validasi Data
+   Model di kedua sisi membantu memvalidasi data. Misalnya:
+   - Django menggunakan serializers dari Django REST Framework (DRF) untuk memeriksa apakah data yang dikirim oleh Flutter memenuhi persyaratan model.
+   - Flutter menggunakan model Dart untuk memvalidasi tipe data yang diterima dari API.
+Jika kita tidak membuat model dapat berisiko error parsing JSON, struktur data salah, dan tidak kesesuaian tipe data akan meningkat.
+
+## 2. Jelaskan fungsi dari library http yang sudah kamu implementasikan pada tugas ini
+Beberapa fungsi library http yang saya implementasikan:
+- Melakukan HTTP Request: Mengirim request (GET, POST, PUT, DELETE) ke server.
+- Mengambil Data dari API: Mendapatkan respons dalam bentuk JSON.
+
+## 3. Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+`CookieRequest` berfungsi untuk menyimpan informasi autentikasi yang memastikan bahwa semua permintaan berikutnya terkait dengan sesi user yang sama. Dan kenapa kita perlu instance `CookieRequest` ke semua komponen di aplikasi flutter adalah karna dapat memastikan konsistensi sesi, mempermudah pengembangan, menghindari redudansi, dan mendukung pengelolaan depedency yang baik.
+
+## 4.  Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter.
+a. Input Data di Flutter
+Pengguna memasukkan data melalui interface Flutter, misalnya melalui form atau widget input seperti TextField, DropdownButton, atau lainnya.
+b. Pengiriman Data ke Backend
+Setelah data dikumpulkan dan divalidasi, Flutter mengirimkan data ke backend melalui request
+c. Pemrosesan di Backend
+Backend (misalnya Django) menerima request dari Flutter dan memproses data.
+d. Penerimaan dan Pemrosesan Data di Flutter
+Setelah backend mengirimkan respons, Flutter menerima dan memprosesnya untuk ditampilkan kepada pengguna.
+e. Menampilkan Data di Flutter
+Data yang diterima dari backend kemudian ditampilkan ke pengguna melalui interface Flutter.
+
+## 5. Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+### Proses Register
+#### Flutter:
+a. Input Data Pengguna: Pengguna memasukkan data seperti usernama dan password menggunakan widget input (TextField).
+b. Validasi Data: Validasi dilakukan untuk memastikan data yang dimasukkan benar, seperti format username valid dan password memenuhi kriteria.
+c. Kirim Data ke Django: Data dikirim ke backend menggunakan HTTP POST request dalam format JSON.
+#### Django:
+a. Penerimaan Data: Django menerima data JSON yang dikirim oleh Flutter dan memprosesnya melalui endpoint register.
+b. Validasi dan Simpan:
+    - Django memvalidasi data, seperti mengecek apakah email sudah terdaftar.
+    - Jika valid, data disimpan ke database menggunakan model User.
+c. Kirim Respons: Django mengirimkan respons JSON kembali ke Flutter untuk memberi tahu status pendaftaran.
+
+### Proses Login
+#### Flutter:
+a. Input Data Login: Pengguna memasukkan username dan password.
+b. Kirim Data ke Django: Data login dikirim ke backend.
+#### Django:
+a. Penerimaan Data: Django menerima data JSON melalui endpoint login.
+b. Validasi dan Sesi:
+    - Backend memvalidasi kredensial menggunakan authenticate.
+    - Jika berhasil, sesi pengguna disimpan menggunakan login.
+c. Kirim Respons: Django mengirimkan data seperti token atau session ID untuk dipakai di Flutter.
+
+### Proses Logout
+#### Flutter:
+Kirim Permintaan Logout: Flutter mengirimkan request logout ke backend, menyertakan token jika diperlukan.
+
+#### Django:
+a. Penerimaan Permintaan Logout: Django menerima permintaan dan menghapus sesi/token.
+b. Hapus Token: Jika menggunakan token-based authentication, token dihapus dari database.
+c. Kirim Respons: Django mengirimkan konfirmasi logout ke Flutter.
+
+##  Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).
+### 1.  Mengimplementasikan fitur registrasi akun pada proyek tugas Flutter.
+a. Buatlah logic button registrasi:
+```
+ final response = await request.postJson(
+  "http://localhost:8000/auth/register/",
+  jsonEncode({
+    "username": username,
+    "password1": password1,
+    "password2": password2,
+  }));
+```
+b. Dan jika registrasi berhasil maka arahkan ke login page:
+```
+   ...
+     Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+        builder: (context) => const LoginPage()),
+  );
+   ...
+```
+
+### 2.  Mengimplementasikan fitur login akun pada proyek tugas Flutter.
+a. Membuat view untuk login page di Django `authentication/views.py`:
+```
+   @csrf_exempt
+   def login(request):
+       username = request.POST['username']
+       password = request.POST['password']
+       user = authenticate(username=username, password=password)
+```
+lalu sambungkan urls-nya di `urls.py
+b. Buatlah tampilan halaman login pada aplikasi flutter dan pada `main.dart` ubah `home: MyHomePage()` menjadi `home: const LoginPage()`
+
+### 3.  Mengintegrasikan sistem autentikasi Django dengan proyek tugas Flutter.
+a. Membuat view untuk fitur login, logout, dan registrasi
+b. Memanggil endpoints melalui request di Flutter
+c. Memproses output dari JSON
+
+### 4.  Membuat model kustom sesuai dengan proyek aplikasi Django.
+a. Mengecek isi dari localhost:8000/json
+2. Generate model dart dengan bantuan website Quicktype
+3. Membuat file baru bernama product_entry.dart untuk meletakan model yang telah kita generate sebelumnya.
+
+### 5.  Membuat halaman yang berisi daftar semua item yang terdapat pada endpoint JSON di Django yang telah kamu deploy.
+a. Menggunakan Future Builder di Scaffold:
+```
+...
+ body: FutureBuilder(
+     future: fetchMood(request),
+     builder: (context, AsyncSnapshot snapshot) {
+       if (snapshot.data == null) {
+         return const Center(child: CircularProgressIndicator());
+       } else {
+         if (!snapshot.hasData) {
+...
+```
+b. Membuat function untuk melakukan fetching JSON:
+```
+     Future<List<ProductEntry>> fetchMood(CookieRequest request) async {
+    final response = await request.get('http://localhost:8000/json/');
+
+    // Melakukan decode response menjadi bentuk json
+    var data = response;
+
+    // Melakukan konversi data json menjadi object ProductEntry
+    List<ProductEntry> listMood = [];
+    for (var d in data) {
+      if (d != null) {
+        listMood.add(ProductEntry.fromJson(d));
+      }
+    }
+    return listMood;
+  }
+```
+### 6.  Membuat halaman detail untuk setiap item yang terdapat pada halaman daftar Item.
+a. Membuat variabel yang akan menjadi atribut dari page yang sedang dibuat:
+```
+  final String uuid;
+  final String name;
+  final int price;
+  final String description;
+
+  ProductDetailPage(
+      {required this.uuid,
+      required this.name,
+      required this.price,
+      required this.description,
+```
+b. Handle card product yang di klik di halaman list product:
+```
+   ...
+   child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProductDetailPage(
+                uuid: snapshot.data![index].pk.toString(),
+                name: snapshot.data![index].fields.name,
+                price: snapshot.data![index].fields.price,
+                description:
+              ),
+            ),
+          );
+        },
+   ...
+```
+c. Menggunakan atribut untuk ditampilkan di halaman dengan jelas:
+```
+         Text(
+           'Name: ${widget.name}',
+           style: TextStyle(fontSize: 16),
+         ),
+         Text(
+           'Price: \$${widget.price}',
+           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+         ),
+         SizedBox(height: 8.0),
+         Text(
+           'Description: ${widget.description}',
+           style: TextStyle(fontSize: 16),
+         ),
+         )
+```
+
+
+
+
